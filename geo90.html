@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Geo90 - Daily Geography Challenge</title>
+  
+  <!-- SEO META TAGS FOR GOOGLE SEARCH & ADSENSE APPROVAL -->
+  <meta name="description" content="Geo90 is a daily geography quiz game where you have 90 seconds to guess matching countries based on daily criteria. Test your knowledge and build your daily streak!">
+  <meta name="keywords" content="Geo90, geography game, daily geography challenge, country quiz, map trivia, Geo100, Geolist">
+  <meta name="author" content="Geo90">
+
+  <!-- OPEN GRAPH TAGS FOR SOCIAL SHARING & GOOGLE -->
+  <meta property="og:title" content="Geo90 - Daily Geography Challenge">
+  <meta property="og:description" content="Test your geography skills with a fresh daily criteria in 90 seconds. Beat the clock and build your streak!">
+  <meta property="og:type" content="website">
+
+  <!-- FAVICON (FÖLDGÖMB EMOJI) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌍</text></svg>">
+
+  <!-- GOOGLE ADSENSE CODE PLACEHOLDER -->
+  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+    
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      touch-action: manipulation;
+      background-color: #EAE8E1;
+      background-image: radial-gradient(#CFCAC0 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    .progress-bar-fill {
+      transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Vizualis animaciok a helyes es hibas tippekhez */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+    .animate-shake {
+      animation: shake 0.35s ease-in-out;
+    }
+
+    /* Érezhetőbb zöld villanás helyes válasznál */
+    @keyframes pulse-green-strong {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15); color: #059669; filter: drop-shadow(0 0 12px rgba(16, 185, 129, 0.8)); }
+      100% { transform: scale(1); }
+    }
+    .animate-pulse-green-strong {
+      animation: pulse-green-strong 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+  </style>
+</head>
+<body class="text-stone-800 min-h-screen flex flex-col items-center justify-between p-3 sm:p-6 pb-20 lg:pb-6 select-none relative">
+
+  <!-- Main Layout Container -->
+  <div class="w-full max-w-5xl mx-auto flex-1 flex flex-col lg:flex-row items-center lg:items-start justify-center gap-6">
+
+    <!-- Left Desktop Sidebar Ad Slot (Clean container for Auto Ads) -->
+    <div class="hidden lg:flex sticky top-6 w-40 h-[650px] shrink-0 min-h-[600px]" id="left-sidebar-ad"></div>
+
+    <!-- Center Interactive Content Area -->
+    <div class="w-full max-w-md flex-1 flex flex-col justify-between my-auto">
+      
+      <!-- PAGE 1: START SCREEN / LANDING CARD -->
+      <div id="landing-screen" class="w-full bg-[#F6F5F0] rounded-3xl p-5 sm:p-8 shadow-xl border border-stone-300/80 flex flex-col items-center text-center relative overflow-hidden">
+        <div class="absolute -top-12 -right-12 w-32 h-32 bg-amber-200/40 rounded-full blur-2xl pointer-events-none"></div>
+
+        <!-- Title & Dynamic Day Header -->
+        <h1 class="text-4xl sm:text-5xl font-black tracking-tight text-stone-900 mb-1 drop-shadow-sm">
+          Geo90
+        </h1>
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-200/70 border border-stone-300/60 mb-3">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse"></span>
+          <span id="day-header-1" class="text-[11px] font-bold tracking-widest text-stone-600 uppercase">
+            DAY #1
+          </span>
+        </div>
+
+        <hr class="w-full border-t border-stone-300/70 mb-5" />
+
+        <!-- Integrated Rules List -->
+        <div class="w-full bg-[#ECEAE3] rounded-2xl p-4 sm:p-5 text-left text-xs sm:text-sm text-stone-700 space-y-3.5 mb-5 border border-stone-300/60 shadow-inner">
+          <div class="flex items-start gap-3">
+            <div class="p-1.5 rounded-lg bg-stone-200/80 shrink-0 text-stone-700">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            <p><strong class="text-stone-900">Daily Geography Challenge:</strong> A brand new geography topic unlocks every day at midnight.</p>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <div class="p-1.5 rounded-lg bg-stone-200/80 shrink-0 text-stone-700">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <p><strong class="text-stone-900">90 Seconds to Race:</strong> Type as many matching countries as you can before the clock expires.</p>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <div class="p-1.5 rounded-lg bg-rose-100 shrink-0 text-rose-700">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <p><strong class="text-rose-900">-3s Time Penalty:</strong> Wrong guesses cost 3 precious seconds, so guess carefully!</p>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <div class="p-1.5 rounded-lg bg-emerald-100 shrink-0 text-emerald-800">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+              </svg>
+            </div>
+            <p><strong class="text-emerald-950">Build Your Streak:</strong> Play daily to protect your streak and compare scores globally.</p>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <div class="p-1.5 rounded-lg bg-amber-100 shrink-0 text-amber-800">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <p><strong class="text-amber-950">Missed Yesterday?</strong> If you missed or want to try yesterday's challenge again, you can replay it once!</p>
+          </div>
+        </div>
+
+        <!-- Start Button -->
+        <button 
+          id="start-btn"
+          onclick="startGame()"
+          class="w-full bg-stone-900 hover:bg-stone-800 active:scale-[0.98] transition-all duration-150 text-white font-bold text-base sm:text-lg py-3.5 sm:py-4 rounded-2xl shadow-lg flex items-center justify-center gap-2 cursor-pointer border border-stone-700"
+        >
+          <span>Start Game</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- PAGE 2: ACTIVE GAMEPLAY VIEW -->
+      <div id="gameplay-screen" class="hidden w-full bg-[#F6F5F0] rounded-3xl p-4 sm:p-7 shadow-xl border border-stone-300/80 text-center flex flex-col items-center min-h-[520px] relative overflow-hidden">
+        <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-stone-900 mb-0.5">
+          Geo90
+        </h1>
+        <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-stone-200/70 border border-stone-300/60 mb-3">
+          <span id="day-header-2" class="text-[10px] font-bold tracking-widest text-stone-600 uppercase">
+            DAY #1
+          </span>
+        </div>
+
+        <hr class="w-full border-t border-stone-300/70 mb-3" />
+
+        <!-- Category & Stopwatch -->
+        <div class="w-full flex justify-between items-center mb-3 bg-[#ECEAE3] p-3 sm:p-4 rounded-2xl border border-stone-300/60 shadow-inner">
+          <div class="text-left pr-2">
+            <span class="text-[10px] sm:text-xs uppercase font-bold text-stone-400 tracking-wider">Category</span>
+            <p id="current-category-title" class="font-extrabold text-stone-800 text-sm sm:text-lg leading-tight">Loading category...</p>
+          </div>
+
+          <div id="timer-badge" class="relative flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-stone-900 text-white rounded-full shadow-xl border-4 border-stone-700/80 shrink-0 p-1">
+            <div class="absolute -top-2 w-3.5 h-1.5 sm:w-4 sm:h-2 bg-gradient-to-r from-stone-400 via-stone-200 to-stone-500 rounded-sm shadow-sm border border-stone-600"></div>
+            <div class="absolute -top-1 -right-1 w-2 h-2 sm:w-2.5 sm:h-2.5 bg-stone-500 rounded-full border border-stone-600 transform rotate-45"></div>
+            <div class="w-full h-full rounded-full border border-stone-800 flex items-center justify-center bg-stone-950 relative overflow-hidden">
+              <div class="absolute inset-1 rounded-full border border-dashed border-stone-700 opacity-60"></div>
+              <span class="font-mono font-black text-xl sm:text-2xl tracking-tighter text-amber-400 z-10 drop-shadow-[0_0_8px_rgba(251,191,36,0.3)]" id="timer">90</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Input & Guess Button -->
+        <div class="w-full mb-3">
+          <div class="flex gap-1.5 sm:gap-2 mb-1">
+            <input 
+              type="text" 
+              id="country-input" 
+              placeholder="Type a country..." 
+              autocomplete="off"
+              spellcheck="false"
+              class="flex-1 min-w-0 bg-[#E2E0D8] border border-stone-300/90 rounded-2xl px-3.5 sm:px-4 py-3 text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-700 text-sm sm:text-base shadow-inner transition-all"
+            >
+            <button 
+              onclick="handleSubmission()" 
+              class="bg-stone-900 hover:bg-stone-800 active:scale-[0.96] transition-all text-white font-bold px-4 sm:px-5 py-3 rounded-2xl shrink-0 cursor-pointer shadow-md text-xs sm:text-sm border border-stone-700"
+            >
+              Guess
+            </button>
+          </div>
+
+          <div class="min-h-[18px] text-left pl-1">
+            <span id="feedback-msg" class="text-xs font-bold hidden"></span>
+          </div>
+        </div>
+
+        <!-- Guessed Countries Box -->
+        <div id="guessed-box-container" class="w-full flex-1 max-h-[180px] sm:max-h-[220px] overflow-y-auto bg-[#ECEAE3]/60 rounded-2xl border border-dashed border-stone-300/80 p-3 text-left shadow-inner mb-2.5">
+          <span class="text-[10px] sm:text-[11px] font-bold text-stone-400 uppercase tracking-wider block mb-1.5" id="guessed-count-header">
+            Guessed Countries (0)
+          </span>
+          <div id="guessed-countries" class="flex flex-wrap gap-1.5 sm:gap-2">
+            <!-- Correct Badges go here -->
+          </div>
+        </div>
+
+        <!-- Incorrect Guesses Box -->
+        <div id="incorrect-box" class="w-full h-[80px] sm:h-[95px] overflow-y-auto bg-rose-500/5 rounded-2xl border border-rose-300/40 p-2.5 text-left shrink-0">
+          <span class="text-[9px] sm:text-[10px] font-bold text-rose-500/80 uppercase tracking-wider block mb-1">
+            Incorrect Guesses
+          </span>
+          <div id="incorrect-countries" class="flex flex-wrap gap-1.5">
+            <!-- Incorrect Badges go here -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- PAGE 3: FINAL SCORE & STATS SCREEN -->
+      <div id="results-screen" class="hidden w-full bg-[#F6F5F0] rounded-3xl p-5 sm:p-8 shadow-xl border border-stone-300/80 text-center flex flex-col items-center min-h-[580px] relative overflow-hidden space-y-4">
+        <div class="absolute -bottom-16 -left-16 w-40 h-40 bg-amber-200/50 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- Title & Day Header -->
+        <div class="w-full flex flex-col items-center">
+          <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-stone-900 mb-0.5">
+            Geo90
+          </h1>
+          <span id="day-header-3" class="text-[11px] font-bold tracking-widest text-stone-500 uppercase">
+            DAY #1
+          </span>
+        </div>
+
+        <hr class="w-full border-t border-stone-300/70" />
+
+        <!-- 1. Compact Score Card Block -->
+        <div class="w-full bg-[#ECEAE3] rounded-2xl p-4 border border-stone-300/80 shadow-inner flex flex-col items-center">
+          <span class="text-[10px] font-black uppercase tracking-widest text-stone-400 block mb-0.5">You Found</span>
+          
+          <div class="flex items-baseline justify-center gap-1 mb-2">
+            <span id="final-score-found" class="text-4xl sm:text-5xl font-black text-stone-900 tracking-tight">0</span>
+            <span class="text-2xl sm:text-3xl font-extrabold text-stone-400">/</span>
+            <span id="final-score-total" class="text-2xl sm:text-3xl font-extrabold text-stone-500">0</span>
+          </div>
+
+          <div class="w-full bg-[#DCD9CE] h-3 rounded-full p-0.5 border border-stone-300/80 shadow-inner mb-2.5 overflow-hidden">
+            <div id="progress-bar" class="progress-bar-fill bg-stone-900 h-full rounded-full w-0 shadow-sm"></div>
+          </div>
+
+          <p id="result-category-name" class="font-extrabold text-stone-800 text-xs sm:text-sm mb-3">---</p>
+
+          <button 
+            onclick="openSolutionsModal()"
+            class="w-full bg-[#E2E0D8] hover:bg-[#D8D5CB] active:scale-[0.98] transition-all py-2 px-3 rounded-xl border border-stone-300/80 flex items-center justify-center gap-2 text-stone-800 font-bold text-xs shadow-sm cursor-pointer"
+          >
+            <svg class="w-4 h-4 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+            </svg>
+            <span>See All Solutions</span>
+          </button>
+        </div>
+
+        <hr class="w-full border-t border-stone-300/70" />
+
+        <!-- 2. Share Result Block -->
+        <div class="w-full">
+          <button 
+            onclick="shareResult()"
+            class="w-full bg-emerald-700 hover:bg-emerald-800 active:scale-[0.98] transition-all duration-150 text-white font-bold text-base py-3.5 rounded-2xl shadow-md flex items-center justify-center gap-2 cursor-pointer border border-emerald-800"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+            </svg>
+            <span id="share-btn-text">Share Result</span>
+          </button>
+        </div>
+
+        <hr class="w-full border-t border-stone-300/70" />
+
+        <!-- 3. Player Statistics Block (4 ELEMŰ RÁCS) -->
+        <div class="w-full flex flex-col items-start">
+          <span class="text-[10px] font-black uppercase tracking-widest text-stone-400 mb-2 pl-1">Statistics</span>
+          
+          <div class="w-full grid grid-cols-4 gap-1 sm:gap-2 bg-[#ECEAE3]/80 p-2.5 sm:p-3.5 rounded-2xl border border-stone-300/80 shadow-inner">
+            <div class="flex flex-col items-center text-center">
+              <span class="text-xl sm:text-2xl font-black text-stone-900" id="stat-played">0</span>
+              <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-stone-500 mt-0.5">Games Played</span>
+            </div>
+
+            <div class="flex flex-col items-center text-center border-l border-stone-300/80">
+              <span class="text-xl sm:text-2xl font-black text-stone-900" id="stat-current-streak">0</span>
+              <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-stone-500 mt-0.5">Current Streak</span>
+            </div>
+
+            <div class="flex flex-col items-center text-center border-l border-stone-300/80">
+              <span class="text-xl sm:text-2xl font-black text-stone-900" id="stat-max-streak">0</span>
+              <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-stone-500 mt-0.5">Longest Streak</span>
+            </div>
+
+            <div class="flex flex-col items-center text-center border-l border-stone-300/80">
+              <span class="text-xl sm:text-2xl font-black text-stone-900" id="stat-average">0.00</span>
+              <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-stone-500 mt-0.5">Average</span>
+            </div>
+          </div>
+        </div>
+
+        <hr class="w-full border-t border-stone-300/70" />
+
+        <!-- 4. HOW YOU COMPARED SECTION -->
+        <div class="w-full flex flex-col items-start">
+          <span class="text-[10px] font-black uppercase tracking-widest text-stone-400 mb-2 pl-1">How you compared</span>
+          
+          <div class="w-full bg-[#ECEAE3]/80 p-4 rounded-2xl border border-stone-300/80 shadow-inner flex flex-col gap-3">
+            <div class="grid grid-cols-3 gap-1 text-center border-b border-stone-300/60 pb-3">
+              <div>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-stone-400 block" id="compare-players-label">Players Today</span>
+                <span class="text-base sm:text-lg font-black text-stone-800" id="compare-players">...</span>
+              </div>
+              <div class="border-x border-stone-300/60 px-1">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-stone-400 block" id="compare-avg-label">Today's Avg</span>
+                <span class="text-base sm:text-lg font-black text-stone-800" id="compare-avg">...</span>
+              </div>
+              <div>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">You Beat</span>
+                <span class="text-base sm:text-lg font-black text-emerald-700" id="compare-beat">...</span>
+              </div>
+            </div>
+
+            <div class="w-full flex flex-col items-center relative pt-1">
+              <canvas id="comparisonChart" width="360" height="155" class="w-full max-w-full h-auto"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <hr class="w-full border-t border-stone-300/70" />
+
+        <!-- 5. PLAY PREVIOUS CHALLENGE CARD & BUTTON -->
+        <div class="w-full flex flex-col items-start">
+          <span class="text-[10px] font-black uppercase tracking-widest text-stone-400 mb-2 pl-1">Previous Challenge</span>
+          
+          <div class="w-full bg-[#ECEAE3]/80 p-4 rounded-2xl border border-stone-300/80 shadow-inner flex flex-col items-center text-center gap-2">
+            <p class="text-xs sm:text-sm font-extrabold text-stone-700" id="yesterday-card-prompt">Missed or want to try again yesterday's challenge?</p>
+            <button 
+              id="yesterday-btn"
+              onclick="triggerYesterdayChallenge()"
+              class="w-full bg-emerald-800/90 hover:bg-emerald-800 active:scale-[0.98] transition-all py-3 px-4 rounded-xl text-white font-bold text-sm shadow-sm cursor-pointer border border-emerald-900 flex items-center justify-center gap-2"
+            >
+              <svg class="w-4 h-4 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span id="yesterday-btn-label">Play Yesterday's Challenge</span>
+            </button>
+          </div>
+        </div>
+
+        <hr class="w-full border-t border-stone-300/70" />
+
+        <!-- 6. Play Another Geography Game Links Block -->
+        <div class="w-full flex flex-col items-start">
+          <span class="text-[10px] font-black uppercase tracking-widest text-stone-400 mb-2 pl-1">Play another geography game</span>
+          
+          <div class="w-full bg-[#ECEAE3]/80 p-4 rounded-2xl border border-stone-300/80 shadow-inner flex flex-col gap-2.5">
+            <a 
+              href="https://geolist.pro" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="w-full bg-emerald-800/10 hover:bg-emerald-800/20 active:scale-[0.98] transition-all py-3 px-4 rounded-xl border border-emerald-800/30 flex items-center justify-between text-emerald-950 font-bold text-sm shadow-sm"
+            >
+              <span>GeoList</span>
+              <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+              </svg>
+            </a>
+
+            <a 
+              href="https://geograph.pro" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="w-full bg-emerald-800/10 hover:bg-emerald-800/20 active:scale-[0.98] transition-all py-3 px-4 rounded-xl border border-emerald-800/30 flex items-center justify-between text-emerald-950 font-bold text-sm shadow-sm"
+            >
+              <span>GeoGraph</span>
+              <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <hr class="w-full border-t border-stone-300/70" />
+
+        <!-- ÉLŐ VISSZASZÁMLÁLÓ MAGYAR ÉJFÉLIG -->
+        <div class="w-full text-xs font-bold text-stone-500 pt-1 tracking-wide">
+          Next challenge in <span id="countdown-timer" class="font-mono text-stone-900 font-black">00:00:00</span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Right Desktop Sidebar Ad Slot (Clean container for Auto Ads) -->
+    <div class="hidden lg:flex sticky top-6 w-40 h-[650px] shrink-0 min-h-[600px]" id="right-sidebar-ad"></div>
+
+  </div>
+
+  <!-- SEO & ABOUT CONTENT SECTION (LÁTHATÓ VÁLTOZAT AZ ADSENSE ELBÍRÁLÁSHOZ) -->
+  <footer class="w-full max-w-md mx-auto mt-8 mb-6 px-2 text-stone-600 text-xs space-y-4 border-t border-stone-300/60 pt-6">
+    <div class="bg-[#F6F5F0]/80 rounded-2xl border border-stone-300/80 p-4 shadow-sm text-left space-y-2.5">
+      <h3 class="font-extrabold text-stone-800 text-xs uppercase tracking-wider flex items-center gap-1.5">
+        <svg class="w-4 h-4 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        About Geo90 & Game Rules
+      </h3>
+      <p class="text-[11px] text-stone-500 leading-relaxed">
+        Geo90 is an interactive daily geography trivia game designed to test your knowledge of world countries, flags, capitals, and geographical features. Every day at midnight CET, a brand new criteria unlocks globally.
+      </p>
+      <p class="text-[11px] text-stone-500 leading-relaxed">
+        <strong>How to Play:</strong> You have 90 seconds to type matching country names in English. Each correct answer builds your score, while incorrect guesses deduct 3 penalty seconds from your clock. Play daily to build your streak and compare your percentile rank against players worldwide!
+      </p>
+    </div>
+
+    <!-- JOGI KÖVETELMÉNYEK ADSENSE-HEZ (FOOTER LINKS) -->
+    <div class="flex flex-wrap items-center justify-center gap-3 text-[11px] font-bold text-stone-500 pt-1">
+      <button onclick="openLegalModal('privacy')" class="hover:underline cursor-pointer">Privacy Policy</button>
+      <span>•</span>
+      <button onclick="openLegalModal('terms')" class="hover:underline cursor-pointer">Terms of Service</button>
+      <span>•</span>
+      <button onclick="openLegalModal('cookies')" class="hover:underline cursor-pointer">Cookie Settings</button>
+      <span>•</span>
+      <span>© 2026 Geo90</span>
+    </div>
+  </footer>
+
+  <!-- SEE ALL SOLUTIONS MODAL POPUP -->
+  <div id="solutions-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm transition-opacity">
+    <div class="w-full max-w-md bg-[#F6F5F0] rounded-3xl border border-stone-300/90 shadow-2xl overflow-hidden flex flex-col max-h-[85vh] animate-fade-in">
+      
+      <!-- Modal Header -->
+      <div class="p-5 bg-[#ECEAE3] border-b border-stone-300/80 flex items-center justify-between">
+        <div>
+          <span class="text-[10px] font-black uppercase tracking-widest text-stone-400 block mb-0.5">Category Solutions</span>
+          <h3 id="modal-category-title" class="font-extrabold text-stone-900 text-base leading-tight">---</h3>
+        </div>
+        <button 
+          onclick="closeSolutionsModal()"
+          class="w-9 h-9 bg-[#E2E0D8] hover:bg-stone-300 active:scale-95 transition-all rounded-full flex items-center justify-center text-stone-700 cursor-pointer border border-stone-300/80"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-5 overflow-y-auto flex-1">
+        <div id="solutions-grid" class="flex flex-wrap gap-2">
+          <!-- Dynamically populated answer pills -->
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 bg-[#ECEAE3] border-t border-stone-300/80 text-center text-xs text-stone-500 font-bold">
+        Guessed items are highlighted in green
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PRIVACY & TERMS LEGAL MODAL -->
+  <div id="legal-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm">
+    <div class="w-full max-w-lg bg-[#F6F5F0] rounded-3xl border border-stone-300/90 shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
+      <div class="p-4 bg-[#ECEAE3] border-b border-stone-300/80 flex items-center justify-between">
+        <h3 id="legal-modal-title" class="font-extrabold text-stone-900 text-base">Legal Information</h3>
+        <button onclick="closeLegalModal()" class="w-8 h-8 bg-[#E2E0D8] hover:bg-stone-300 rounded-full flex items-center justify-center text-stone-700">✕</button>
+      </div>
+      <div id="legal-modal-body" class="p-5 overflow-y-auto text-xs text-stone-700 leading-relaxed space-y-3">
+        <!-- Content dynamically injected -->
+      </div>
+    </div>
+  </div>
+
+  <!-- FIREBASE SDK INTEGRATION -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDmR2BkWzxUEjraH9YcvQE0YVCjdaNfNBs",
+      authDomain: "geo90-36ee5.firebaseapp.com",
+      projectId: "geo90-36ee5",
+      storageBucket: "geo90-36ee5.firebasestorage.app",
+      messagingSenderId: "970306985685",
+      appId: "1:970306985685:web:bcd489ba1581c0b3fc0c5c",
+      measurementId: "G-YKQCHLPJQP"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.syncFirebaseStats = async function(dayNum, userScore, maxScore) {
+      try {
+        const scoresRef = collection(db, "daily_scores");
+
+        await addDoc(scoresRef, {
+          day: dayNum,
+          score: userScore,
+          timestamp: new Date()
+        });
+
+        const q = query(scoresRef, where("day", "==", dayNum));
+        const querySnapshot = await getDocs(q);
+
+        const allScores = [];
+        querySnapshot.forEach((doc) => {
+          allScores.push(doc.data().score);
+        });
+
+        if (allScores.length > 0) {
+          const totalPlayers = allScores.length;
+          const sum = allScores.reduce((a, b) => a + b, 0);
+          const avgScore = (sum / totalPlayers).toFixed(1);
+
+          const beatCount = allScores.filter(s => s < userScore).length;
+          const tieCount = allScores.filter(s => s === userScore).length;
+
+          let beatPct;
+          if (userScore === maxScore) {
+            beatPct = 100;
+          } else if (totalPlayers === 1) {
+            beatPct = 100;
+          } else {
+            beatPct = Math.round(((beatCount + (tieCount * 0.5)) / totalPlayers) * 100);
+          }
+
+          document.getElementById('compare-players').innerText = totalPlayers.toLocaleString();
+          document.getElementById('compare-avg').innerText = avgScore;
+          document.getElementById('compare-beat').innerText = `${beatPct}%`;
+
+          window.drawComparisonChart(userScore, maxScore, allScores);
+        }
+      } catch (e) {
+        console.warn("Firebase syncing error or local preview mode:", e);
+        window.drawComparisonChart(userScore, maxScore, []);
+      }
+    };
+  </script>
+
+  <script>
+    // =========================================================================
+    // 1. ALL COUNTRIES DATABASE
+    // =========================================================================
+    const ALL_COUNTRIES = [
+      "madagascar", "mexico", "malaysia", "morocco", "mongolia", "mozambique", "myanmar", "mali",
+      "united states", "united kingdom", "germany", "switzerland", "russia", "china", "france", 
+      "india", "pakistan", "israel", "north korea"
+    ];
+
+    // =========================================================================
+    // 2. COUNTRY ALIASES
+    // =========================================================================
+    const COUNTRY_ALIASES = {
+      "usa": "united states",
+      "us": "united states",
+      "america": "united states",
+      "uk": "united kingdom",
+      "uae": "united arab emirates",
+      "drc": "democratic republic of the congo",
+      "congo dr": "democratic republic of the congo"
+    };
+
+    // =========================================================================
+    // 3. TERRITORIES
+    // =========================================================================
+    const TERRITORIES = {
+      "palestine": "In this game Palestine is a territory, not a country.",
+      "puerto rico": "In this game Puerto Rico is a territory, not a country.",
+      "greenland": "In this game Greenland is a territory, not a country.",
+      "hong kong": "In this game Hong Kong is a territory, not a country."
+    };
+
+    // =========================================================================
+    // 4. DAILY CHALLENGES DATABASE
+    // =========================================================================
+    const DAILY_CHALLENGES = [
+      { 
+        id: 1, 
+        name: 'Countries with nuclear weapons',
+        answers: [
+          "united states", "russia", "china", "france", "united kingdom", 
+          "pakistan", "india", "israel", "north korea"
+        ]
+      },
+      { 
+        id: 2, 
+        name: 'Countries starting with "M"',
+        answers: [
+          "madagascar", "mexico", "malaysia", "morocco", "mongolia", 
+          "mozambique", "myanmar", "mali"
+        ]
+      }
+    ];
+
+    // =========================================================================
+    // 5. DETERMINISZTIKUS DÁTUM-ALAPÚ ROTÁCIÓ
+    // =========================================================================
+    function getChallengeForDay(dayNumber) {
+      const total = DAILY_CHALLENGES.length;
+      const cycleIndex = Math.floor((dayNumber - 1) / total);
+      const positionInCycle = (dayNumber - 1) % total;
+
+      const indices = Array.from({ length: total }, (_, i) => i);
+      let seed = (cycleIndex + 1) * 15485863;
+      
+      for (let i = indices.length - 1; i > 0; i--) {
+        seed = (seed * 9301 + 49297) % 233280;
+        const rnd = seed / 233280;
+        const j = Math.floor(rnd * (i + 1));
+        [indices[i], indices[j]] = [indices[j], indices[i]];
+      }
+
+      const actualIndex = indices[positionInCycle];
+      return DAILY_CHALLENGES[actualIndex];
+    }
+
+    // =========================================================================
+    // 6. AUTOMATIC DAY CALCULATION & MAGYAR ÉJFÉLI VISSZASZÁMLÁLÓ
+    // =========================================================================
+    const START_DATE = new Date(2026, 9, 28);
+
+    function getHungarianDate() {
+      const options = { timeZone: 'Europe/Budapest', year: 'numeric', month: '2-digit', day: '2-digit' };
+      const formatter = new Intl.DateTimeFormat('en-US', options);
+      const parts = formatter.formatToParts(new Date());
+      
+      let year, month, day;
+      parts.forEach(p => {
+        if (p.type === 'year') year = parseInt(p.value);
+        if (p.type === 'month') month = parseInt(p.value) - 1;
+        if (p.type === 'day') day = parseInt(p.value);
+      });
+      return new Date(year, month, day);
+    }
+
+    function getDayNumber() {
+      const today = getHungarianDate();
+      const start = new Date(START_DATE);
+      start.setHours(0, 0, 0, 0);
+      
+      const diffTime = today - start;
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      return Math.max(1, diffDays + 1);
+    }
+
+    const currentDay = getDayNumber();
+    let isPlayingYesterday = false;
+
+    document.getElementById('day-header-1').innerText = `DAY #${currentDay}`;
+    document.getElementById('day-header-2').innerText = `DAY #${currentDay}`;
+    document.getElementById('day-header-3').innerText = `DAY #${currentDay}`;
+
+    let currentChallenge = getChallengeForDay(currentDay);
+    document.getElementById('current-category-title').innerText = currentChallenge.name;
+
+    function updateCountdown() {
+      const hungarianNowString = new Date().toLocaleString("en-US", { timeZone: "Europe/Budapest" });
+      const huNow = new Date(hungarianNowString);
+      
+      const huNextMidnight = new Date(huNow);
+      huNextMidnight.setHours(24, 0, 0, 0);
+
+      const diffMs = huNextMidnight - huNow;
+
+      if (diffMs <= 0) {
+        document.getElementById('countdown-timer').innerText = "00:00:00";
+        return;
+      }
+
+      const hrs = Math.floor(diffMs / (1000 * 60 * 60)).toString().padStart(2, '0');
+      const mins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+      const secs = Math.floor((diffMs % (1000 * 60)) / 1000).toString().padStart(2, '0');
+
+      const countdownEl = document.getElementById('countdown-timer');
+      if (countdownEl) {
+        countdownEl.innerText = `${hrs}:${mins}:${secs}`;
+      }
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // =========================================================================
+    // 7. HELPER FUNCTIONS & ADSENSE-COMPLIANT PRIVACY POLICY
+    // =========================================================================
+    function resolveAlias(inputName) {
+      const lower = inputName.toLowerCase().trim();
+      return COUNTRY_ALIASES[lower] || lower;
+    }
+
+    function getLevenshteinDistance(a, b) {
+      const matrix = [];
+      for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+      for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+
+      for (let i = 1; i <= b.length; i++) {
+        for (let j = 1; j <= a.length; j++) {
+          if (b.charAt(i - 1) === a.charAt(j - 1)) {
+            matrix[i][j] = matrix[i - 1][j - 1];
+          } else {
+            matrix[i][j] = Math.min(
+              matrix[i - 1][j - 1] + 1,
+              Math.min(matrix[i][j - 1] + 1, matrix[i - 1][j] + 1)
+            );
+          }
+        }
+      }
+      return matrix[b.length][a.length];
+    }
+
+    function findMatchingCountryWithTypo(inputName) {
+      const resolved = resolveAlias(inputName);
+
+      if (ALL_COUNTRIES.includes(resolved)) {
+        return resolved;
+      }
+
+      for (let country of ALL_COUNTRIES) {
+        const distance = getLevenshteinDistance(resolved, country);
+        if ((resolved.length >= 4 && distance === 1) || (resolved.length >= 8 && distance <= 2)) {
+          return country;
+        }
+      }
+
+      return null;
+    }
+
+    function openLegalModal(type) {
+      const title = document.getElementById('legal-modal-title');
+      const body = document.getElementById('legal-modal-body');
+      
+      if (type === 'privacy') {
+        title.innerText = 'Privacy Policy';
+        body.innerHTML = '<p>Geo90 respects your privacy. We store your game statistics locally on your device. We use Google Analytics and Firebase to aggregate anonymous daily usage stats.</p><p class="mt-2">Third-party vendors, including Google, use cookies to serve ads based on a user\'s prior visits to this website or other websites. Google\'s use of advertising cookies enables it and its partners to serve ads to users based on their visit to your sites and/or other sites on the Internet.</p><p class="mt-2">Users may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" class="underline text-emerald-800">Google Ad Settings</a>.</p>';
+      } else if (type === 'terms') {
+        title.innerText = 'Terms of Service';
+        body.innerHTML = '<p>Geo90 is provided "as is" for entertainment purposes. You agree to use the service in a manner consistent with all applicable laws and regulations.</p>';
+      } else {
+        title.innerText = 'Cookie Settings';
+        body.innerHTML = '<p>We use essential cookies for game functionality and non-essential cookies for analytics and personalized advertising. You can manage your preferences at any time in your browser settings.</p>';
+      }
+      document.getElementById('legal-modal').classList.remove('hidden');
+    }
+
+    function closeLegalModal() {
+      document.getElementById('legal-modal').classList.add('hidden');
+    }
+
+    // =========================================================================
+    // 8. COMPARISON CHART LOGIC
+    // =========================================================================
+    window.drawComparisonChart = function(userScore, maxScore, realScoresArray = []) {
+      const canvas = document.getElementById('comparisonChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      ctx.clearRect(0, 0, w, h);
+
+      const marginLeft = 52;
+      const marginRight = 15;
+      const marginTop = 22;
+      const marginBottom = 34;
+
+      const plotWidth = w - marginLeft - marginRight;
+      const plotHeight = h - marginTop - marginBottom;
+      const baselineY = h - marginBottom;
+
+      let meanScore = maxScore / 2;
+      if (realScoresArray.length > 0) {
+        const sum = realScoresArray.reduce((a, b) => a + b, 0);
+        meanScore = sum / realScoresArray.length;
+      }
+
+      const meanRatio = Math.max(0.05, Math.min(0.95, meanScore / maxScore));
+      const meanX = marginLeft + meanRatio * plotWidth;
+      const sigma = plotWidth / 5.2;
+
+      ctx.beginPath();
+      ctx.moveTo(marginLeft, baselineY);
+
+      const points = 100;
+      for (let i = 0; i <= points; i++) {
+        const x = marginLeft + (i / points) * plotWidth;
+        const normX = x - meanX;
+        const yVal = Math.exp(-0.5 * Math.pow(normX / sigma, 2));
+        const y = baselineY - (yVal * plotHeight * 0.82);
+        ctx.lineTo(x, y);
+      }
+
+      ctx.strokeStyle = '#A8A29E';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+
+      ctx.lineTo(marginLeft + plotWidth, baselineY);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(217, 214, 203, 0.35)';
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(marginLeft, baselineY);
+      ctx.lineTo(w - marginRight, baselineY);
+      ctx.moveTo(marginLeft, baselineY);
+      ctx.lineTo(marginLeft, marginTop - 5);
+      ctx.strokeStyle = '#78716C';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      const totalPlayersCount = realScoresArray.length || 1;
+      let yMax = totalPlayersCount;
+      if (yMax < 3) yMax = 3;
+
+      const yTicks = [
+        { val: yMax, yPos: marginTop + 5 },
+        { val: Math.round(yMax * 0.66), yPos: marginTop + plotHeight * 0.33 },
+        { val: Math.round(yMax * 0.33), yPos: marginTop + plotHeight * 0.66 }
+      ];
+
+      ctx.fillStyle = '#78716C';
+      ctx.font = 'bold 8.5px "Plus Jakarta Sans", sans-serif';
+      ctx.textAlign = 'right';
+
+      yTicks.forEach(tick => {
+        ctx.beginPath();
+        ctx.moveTo(marginLeft - 3, tick.yPos);
+        ctx.lineTo(marginLeft, tick.yPos);
+        ctx.strokeStyle = '#78716C';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        let formattedVal = tick.val >= 1000 ? (tick.val / 1000).toFixed(1) + 'k' : tick.val.toString();
+        ctx.fillText(formattedVal, marginLeft - 5, tick.yPos + 3);
+      });
+
+      // Y-axis vertical label: "Number of Players"
+      ctx.save();
+      ctx.translate(11, marginTop + plotHeight / 2);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillStyle = '#78716C';
+      ctx.font = 'bold 8.5px "Plus Jakarta Sans", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Number of Players', 0, 0);
+      ctx.restore();
+
+      ctx.fillStyle = '#78716C';
+      ctx.font = 'bold 8.5px "Plus Jakarta Sans", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Correct Answers Found', marginLeft + plotWidth / 2, h - 3);
+
+      const userRatio = Math.max(0, Math.min(1, userScore / maxScore));
+      const userX = marginLeft + userRatio * plotWidth;
+
+      ctx.fillStyle = '#047857';
+      ctx.beginPath();
+      ctx.arc(userX, baselineY, 4.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(userX, baselineY);
+      ctx.lineTo(userX, marginTop + 2);
+      ctx.strokeStyle = '#047857';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([3, 3]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.fillStyle = '#047857';
+      ctx.beginPath();
+      const badgeX = Math.max(marginLeft + 20, Math.min(w - marginRight - 20, userX));
+      ctx.roundRect(badgeX - 22, 2, 44, 17, 5);
+      ctx.fill();
+
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 9.5px "Plus Jakarta Sans", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(`YOU: ${userScore}`, badgeX, 13);
+
+      ctx.fillStyle = '#78716C';
+      ctx.font = 'bold 9px "Plus Jakarta Sans", sans-serif';
+      
+      let ticks = [0];
+      if (maxScore <= 10) {
+        ticks = [0, Math.round(maxScore / 2), maxScore];
+      } else if (maxScore <= 20) {
+        ticks = [0, 5, 10, 15, maxScore];
+      } else if (maxScore <= 35) {
+        ticks = [0, 10, 20, 30, maxScore];
+      } else {
+        ticks = [0];
+        const step = Math.ceil(maxScore / 5 / 5) * 5;
+        for (let t = step; t < maxScore; t += step) {
+          ticks.push(t);
+        }
+        ticks.push(maxScore);
+      }
+
+      ticks = [...new Set(ticks)].filter(t => t <= maxScore);
+
+      ticks.forEach(tick => {
+        const tickX = marginLeft + (tick / maxScore) * plotWidth;
+        if (tick === 0) {
+          ctx.textAlign = 'right';
+          ctx.fillText('0', marginLeft - 5, baselineY + 12);
+        } else {
+          ctx.textAlign = 'center';
+          ctx.fillText(tick.toString(), tickX, baselineY + 13);
+        }
+      });
+    };
+
+    // =========================================================================
+    // 9. GAME LOGIC & PERSISTENT STATS LOGIC
+    // =========================================================================
+    let timeLeft = 90;
+    let timerInterval = null;
+    let guessedCountriesList = [];
+    let incorrectCountriesList = [];
+
+    const STORAGE_KEY_DAY = 'geo90_completed_day';
+    const STORAGE_KEY_CORRECT = 'geo90_correct_list';
+    const STORAGE_KEY_INCORRECT = 'geo90_incorrect_list';
+    const STORAGE_KEY_YESTERDAY_PLAYED = 'geo90_yesterday_played_day';
+
+    const STORAGE_KEY_TOTAL_GAMES = 'geo90_total_games_played';
+    const STORAGE_KEY_TOTAL_GOOD_GUESSES = 'geo90_total_good_guesses';
+    const STORAGE_KEY_CURRENT_STREAK = 'geo90_current_streak';
+    const STORAGE_KEY_LONGEST_STREAK = 'geo90_longest_streak';
+    const STORAGE_KEY_LAST_WON_DATE = 'geo90_last_won_date';
+
+    function getHungarianDateString(dateObj = new Date()) {
+      const options = { timeZone: 'Europe/Budapest', year: 'numeric', month: '2-digit', day: '2-digit' };
+      const formatter = new Intl.DateTimeFormat('en-US', options);
+      const parts = formatter.formatToParts(dateObj);
+      let y, m, d;
+      parts.forEach(p => {
+        if (p.type === 'year') y = p.value;
+        if (p.type === 'month') m = p.value;
+        if (p.type === 'day') d = p.value;
+      });
+      return `${y}-${m}-${d}`;
+    }
+
+    function updateYesterdayButtonState() {
+      const yesterdayPlayedDay = localStorage.getItem(STORAGE_KEY_YESTERDAY_PLAYED);
+      const yBtn = document.getElementById('yesterday-btn');
+      const yLabel = document.getElementById('yesterday-btn-label');
+      const yPrompt = document.getElementById('yesterday-card-prompt');
+
+      if (isPlayingYesterday) {
+        if (yPrompt) yPrompt.classList.add('hidden');
+        yBtn.disabled = false;
+        yBtn.className = "w-full bg-stone-900 hover:bg-stone-800 active:scale-[0.98] transition-all py-3 px-4 rounded-xl text-white font-bold text-sm shadow-md cursor-pointer border border-stone-700 flex items-center justify-center gap-2";
+        yLabel.innerText = "Back to Today's Challenge";
+      } else if (yesterdayPlayedDay && parseInt(yesterdayPlayedDay) === currentDay) {
+        if (yPrompt) yPrompt.classList.remove('hidden');
+        yBtn.disabled = true;
+        yBtn.className = "w-full bg-stone-300 text-stone-500 font-bold text-sm py-3 px-4 rounded-xl shadow-none cursor-not-allowed border border-stone-300/80 flex items-center justify-center gap-2 opacity-70";
+        yLabel.innerText = "Yesterday's Challenge Completed";
+      } else {
+        if (yPrompt) yPrompt.classList.remove('hidden');
+        yBtn.disabled = false;
+        yBtn.className = "w-full bg-emerald-800/90 hover:bg-emerald-800 active:scale-[0.98] transition-all py-3 px-4 rounded-xl text-white font-bold text-sm shadow-sm cursor-pointer border border-emerald-900 flex items-center justify-center gap-2";
+        yLabel.innerText = "Play Yesterday's Challenge";
+      }
+    }
+
+    function renderGlobalStats() {
+      const totalGames = parseInt(localStorage.getItem(STORAGE_KEY_TOTAL_GAMES) || '0');
+      const totalGoodGuesses = parseInt(localStorage.getItem(STORAGE_KEY_TOTAL_GOOD_GUESSES) || '0');
+      const currentStreak = parseInt(localStorage.getItem(STORAGE_KEY_CURRENT_STREAK) || '0');
+      const longestStreak = parseInt(localStorage.getItem(STORAGE_KEY_LONGEST_STREAK) || '0');
+
+      const averageVal = totalGames === 0 ? "0.00" : (totalGoodGuesses / totalGames).toFixed(2);
+
+      document.getElementById('stat-played').innerText = totalGames;
+      document.getElementById('stat-current-streak').innerText = currentStreak;
+      document.getElementById('stat-max-streak').innerText = longestStreak;
+      document.getElementById('stat-average').innerText = averageVal;
+    }
+
+    function checkDailyStreakReset() {
+      const lastWonDate = localStorage.getItem(STORAGE_KEY_LAST_WON_DATE);
+      if (!lastWonDate) return;
+
+      const last = new Date(lastWonDate);
+      const today = new Date(getHungarianDateString());
+      last.setHours(0,0,0,0);
+      today.setHours(0,0,0,0);
+
+      const diffDays = Math.round((today - last) / (1000 * 60 * 60 * 24));
+      if (diffDays > 1) {
+        localStorage.setItem(STORAGE_KEY_CURRENT_STREAK, '0');
+      }
+    }
+
+    function checkPreviousCompletion() {
+      checkDailyStreakReset();
+      const savedDay = localStorage.getItem(STORAGE_KEY_DAY);
+      
+      if (savedDay && parseInt(savedDay) === currentDay) {
+        const savedCorrect = JSON.parse(localStorage.getItem(STORAGE_KEY_CORRECT) || '[]');
+        const savedIncorrect = JSON.parse(localStorage.getItem(STORAGE_KEY_INCORRECT) || '[]');
+
+        guessedCountriesList = savedCorrect;
+        incorrectCountriesList = savedIncorrect;
+
+        document.getElementById('landing-screen').classList.add('hidden');
+        document.getElementById('gameplay-screen').classList.add('hidden');
+        document.getElementById('results-screen').classList.remove('hidden');
+
+        const foundCount = guessedCountriesList.length;
+        const totalCount = currentChallenge.answers.length;
+
+        document.getElementById('result-category-name').innerText = currentChallenge.name;
+        document.getElementById('final-score-found').innerText = foundCount;
+        document.getElementById('final-score-total').innerText = totalCount;
+
+        const percentage = Math.min(100, Math.round((foundCount / totalCount) * 100));
+        setTimeout(() => {
+          document.getElementById('progress-bar').style.width = `${percentage}%`;
+          if (window.syncFirebaseStats) {
+            window.syncFirebaseStats(currentDay, foundCount, totalCount);
+          }
+        }, 100);
+
+        renderGlobalStats();
+        updateYesterdayButtonState();
+        return true;
+      }
+      return false;
+    }
+
+    function saveCompletionState() {
+      if (!isPlayingYesterday) {
+        localStorage.setItem(STORAGE_KEY_DAY, currentDay);
+        localStorage.setItem(STORAGE_KEY_CORRECT, JSON.stringify(guessedCountriesList));
+        localStorage.setItem(STORAGE_KEY_INCORRECT, JSON.stringify(incorrectCountriesList));
+      }
+    }
+
+    function updatePersistentStatsAfterGame() {
+      let totalGames = parseInt(localStorage.getItem(STORAGE_KEY_TOTAL_GAMES) || '0');
+      let totalGoodGuesses = parseInt(localStorage.getItem(STORAGE_KEY_TOTAL_GOOD_GUESSES) || '0');
+      let currentStreak = parseInt(localStorage.getItem(STORAGE_KEY_CURRENT_STREAK) || '0');
+      let longestStreak = parseInt(localStorage.getItem(STORAGE_KEY_LONGEST_STREAK) || '0');
+      
+      totalGames++;
+      totalGoodGuesses += guessedCountriesList.length;
+
+      const todayStr = getHungarianDateString();
+
+      if (!isPlayingYesterday) {
+        const lastWonDate = localStorage.getItem(STORAGE_KEY_LAST_WON_DATE);
+        if (lastWonDate) {
+          const lastDate = new Date(lastWonDate);
+          const todayDate = new Date(todayStr);
+          lastDate.setHours(0,0,0,0);
+          todayDate.setHours(0,0,0,0);
+          const diffDays = Math.round((todayDate - lastDate) / (1000 * 60 * 60 * 24));
+
+          if (diffDays === 1) {
+            currentStreak++;
+          } else if (diffDays === 0) {
+            // Ma mar megnyerte
+          } else {
+            currentStreak = 1;
+          }
+        } else {
+          currentStreak = 1;
+        }
+
+        localStorage.setItem(STORAGE_KEY_LAST_WON_DATE, todayStr);
+        if (currentStreak > longestStreak) {
+          longestStreak = currentStreak;
+        }
+      }
+
+      localStorage.setItem(STORAGE_KEY_TOTAL_GAMES, totalGames.toString());
+      localStorage.setItem(STORAGE_KEY_TOTAL_GOOD_GUESSES, totalGoodGuesses.toString());
+      localStorage.setItem(STORAGE_KEY_CURRENT_STREAK, currentStreak.toString());
+      localStorage.setItem(STORAGE_KEY_LONGEST_STREAK, longestStreak.toString());
+
+      renderGlobalStats();
+    }
+
+    function triggerYesterdayChallenge() {
+      if (isPlayingYesterday) {
+        isPlayingYesterday = false;
+        const yesterdayPlayedDay = localStorage.getItem(STORAGE_KEY_YESTERDAY_PLAYED);
+        if (!yesterdayPlayedDay || parseInt(yesterdayPlayedDay) !== currentDay) {
+          localStorage.setItem(STORAGE_KEY_YESTERDAY_PLAYED, currentDay);
+        }
+        
+        currentChallenge = getChallengeForDay(currentDay);
+        
+        document.getElementById('day-header-1').innerText = `DAY #${currentDay}`;
+        document.getElementById('day-header-2').innerText = `DAY #${currentDay}`;
+        document.getElementById('day-header-3').innerText = `DAY #${currentDay}`;
+
+        document.getElementById('compare-players-label').innerText = "Players Today";
+        document.getElementById('compare-avg-label').innerText = "Today's Avg";
+
+        checkPreviousCompletion();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      // KÖZVETLENÜL ELINDÍTJUK A TEGNAPI JÁTÉKOT (REKLÁM MODAL MENTÉN)
+      startYesterdayGameDirectly();
+    }
+
+    function startYesterdayGameDirectly() {
+      isPlayingYesterday = true;
+      const yesterdayDayNum = Math.max(1, currentDay - 1);
+      currentChallenge = getChallengeForDay(yesterdayDayNum);
+
+      document.getElementById('day-header-2').innerText = `DAY #${yesterdayDayNum} (YESTERDAY)`;
+      document.getElementById('current-category-title').innerText = currentChallenge.name;
+
+      guessedCountriesList = [];
+      incorrectCountriesList = [];
+      document.getElementById('guessed-countries').innerHTML = '';
+      document.getElementById('incorrect-countries').innerHTML = '';
+      document.getElementById('guessed-count-header').innerText = `Guessed Countries (0)`;
+
+      const feedbackMsg = document.getElementById('feedback-msg');
+      if (feedbackMsg) {
+        feedbackMsg.innerText = '';
+        feedbackMsg.classList.add('hidden');
+      }
+
+      document.getElementById('results-screen').classList.add('hidden');
+      document.getElementById('landing-screen').classList.add('hidden');
+      document.getElementById('gameplay-screen').classList.remove('hidden');
+
+      timeLeft = 90;
+      document.getElementById('timer').innerText = timeLeft;
+      const input = document.getElementById('country-input');
+      input.value = '';
+      input.focus();
+
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        document.getElementById('timer').innerText = timeLeft;
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          showResults();
+        }
+      }, 1000);
+    }
+
+    function startGame() {
+      document.getElementById('landing-screen').classList.add('hidden');
+      document.getElementById('gameplay-screen').classList.remove('hidden');
+      
+      const input = document.getElementById('country-input');
+      input.focus();
+
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        document.getElementById('timer').innerText = timeLeft;
+        
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          showResults();
+        }
+      }, 1000);
+    }
+
+    function deductTimePenalty() {
+      timeLeft = Math.max(0, timeLeft - 3);
+      document.getElementById('timer').innerText = timeLeft;
+      
+      const input = document.getElementById('country-input');
+      input.classList.add('animate-shake', 'border-rose-500');
+      setTimeout(() => {
+        input.classList.remove('animate-shake', 'border-rose-500');
+      }, 350);
+
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        showResults();
+      }
+    }
+
+    function showResults() {
+      clearInterval(timerInterval);
+      saveCompletionState();
+      updatePersistentStatsAfterGame();
+
+      document.getElementById('gameplay-screen').classList.add('hidden');
+      document.getElementById('results-screen').classList.remove('hidden');
+
+      const foundCount = guessedCountriesList.length;
+      const totalCount = currentChallenge.answers.length;
+
+      if (isPlayingYesterday) {
+        const yesterdayDayNum = Math.max(1, currentDay - 1);
+        document.getElementById('day-header-3').innerText = `DAY #${yesterdayDayNum} (YESTERDAY)`;
+        
+        document.getElementById('compare-players-label').innerText = "Players Yesterday";
+        document.getElementById('compare-avg-label').innerText = "Yesterday's Avg";
+
+        localStorage.setItem(STORAGE_KEY_YESTERDAY_PLAYED, currentDay);
+      } else {
+        document.getElementById('day-header-3').innerText = `DAY #${currentDay}`;
+        document.getElementById('compare-players-label').innerText = "Players Today";
+        document.getElementById('compare-avg-label').innerText = "Today's Avg";
+      }
+
+      document.getElementById('result-category-name').innerText = currentChallenge.name;
+      document.getElementById('final-score-found').innerText = foundCount;
+      document.getElementById('final-score-total').innerText = totalCount;
+
+      const percentage = Math.min(100, Math.round((foundCount / totalCount) * 100));
+      setTimeout(() => {
+        document.getElementById('progress-bar').style.width = `${percentage}%`;
+        
+        if (window.syncFirebaseStats) {
+          const displayDay = isPlayingYesterday ? Math.max(1, currentDay - 1) : currentDay;
+          window.syncFirebaseStats(displayDay, foundCount, totalCount);
+        }
+      }, 100);
+
+      updateYesterdayButtonState();
+    }
+
+    // =========================================================================
+    // 10. SOLUTIONS MODAL & NATIVE SHARE LOGIC
+    // =========================================================================
+    function openSolutionsModal() {
+      document.getElementById('modal-category-title').innerText = currentChallenge.name;
+      const grid = document.getElementById('solutions-grid');
+      grid.innerHTML = '';
+
+      currentChallenge.answers.forEach(answer => {
+        const isGuessed = guessedCountriesList.includes(answer);
+        const pill = document.createElement('span');
+        
+        if (isGuessed) {
+          pill.className = 'bg-emerald-800 text-emerald-100 font-bold text-xs px-3 py-2 rounded-xl capitalize shadow-sm border border-emerald-700 flex items-center gap-1.5';
+          pill.innerHTML = `<svg class="w-3.5 h-3.5 text-emerald-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> ${answer}`;
+        } else {
+          pill.className = 'bg-stone-300/80 text-stone-700 font-bold text-xs px-3 py-2 rounded-xl capitalize shadow-sm border border-stone-400/50';
+          pill.innerText = answer;
+        }
+
+        grid.appendChild(pill);
+      });
+
+      document.getElementById('solutions-modal').classList.remove('hidden');
+    }
+
+    function closeSolutionsModal() {
+      document.getElementById('solutions-modal').classList.add('hidden');
+    }
+
+    document.getElementById('solutions-modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeSolutionsModal();
+      }
+    });
+
+    async function shareResult() {
+      const foundCount = guessedCountriesList.length;
+      const totalCount = currentChallenge.answers.length;
+      const beatValue = document.getElementById('compare-beat').innerText;
+      const displayDay = isPlayingYesterday ? Math.max(1, currentDay - 1) : currentDay;
+
+      const shareData = {
+        title: 'Geo90 Daily Challenge',
+        text: `Geo90 DAY #${displayDay} 🌍\n📌 ${currentChallenge.name}\n🎯 Score: Found ${foundCount}/${totalCount} countries in 90 seconds!\n🏆 Beat: ${beatValue} of players\n\nCan you beat me? Play now:`,
+        url: window.location.href
+      };
+
+      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+        try {
+          await navigator.share(shareData);
+        } catch (err) {
+          if (err.name !== 'AbortError') {
+            copyToClipboardFallback(`${shareData.text}\n${shareData.url}`);
+          }
+        }
+      } else {
+        copyToClipboardFallback(`${shareData.text}\n${shareData.url}`);
+      }
+    }
+
+    function copyToClipboardFallback(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const btnText = document.getElementById('share-btn-text');
+        if (btnText) {
+          btnText.innerText = "Copied to Clipboard!";
+          setTimeout(() => {
+            btnText.innerText = "Share Result";
+          }, 2000);
+        }
+      });
+    }
+
+    function showFeedback(text, type) {
+      const feedback = document.getElementById('feedback-msg');
+      feedback.innerText = text;
+      
+      feedback.classList.remove('hidden', 'text-emerald-700', 'text-rose-700', 'text-stone-900');
+      
+      if (type === 'correct') {
+        feedback.classList.add('text-emerald-700');
+      } else if (type === 'incorrect') {
+        feedback.classList.add('text-rose-700');
+      } else {
+        feedback.classList.add('text-stone-900');
+      }
+    }
+
+    function handleSubmission() {
+      const input = document.getElementById('country-input');
+      const rawValue = input.value.trim().toLowerCase();
+      
+      if (!rawValue) return;
+
+      if (TERRITORIES[rawValue]) {
+        showFeedback(TERRITORIES[rawValue], 'neutral');
+        input.value = '';
+        input.focus();
+        return;
+      }
+
+      const matchedCountry = findMatchingCountryWithTypo(rawValue);
+
+      if (!matchedCountry) {
+        showFeedback('Country not found in database', 'neutral');
+      } else {
+        const isCorrectForChallenge = currentChallenge.answers.includes(matchedCountry);
+
+        if (!isCorrectForChallenge) {
+          if (incorrectCountriesList.includes(matchedCountry)) {
+            showFeedback('Already guessed wrong!', 'neutral');
+          } else {
+            incorrectCountriesList.push(matchedCountry);
+            
+            const badge = document.createElement('span');
+            badge.className = 'bg-stone-300/80 text-rose-800 line-through font-bold text-[10px] px-2 py-0.5 rounded-md capitalize border border-rose-300/50';
+            badge.innerText = matchedCountry;
+            
+            const incorrectContainer = document.getElementById('incorrect-countries');
+            incorrectContainer.appendChild(badge);
+            
+            const incorrectBox = document.getElementById('incorrect-box');
+            incorrectBox.scrollTop = incorrectBox.scrollHeight;
+
+            showFeedback('Incorrect (-3s)', 'incorrect');
+            deductTimePenalty();
+          }
+        } else if (guessedCountriesList.includes(matchedCountry)) {
+          showFeedback('Already guessed!', 'neutral');
+        } else {
+          guessedCountriesList.push(matchedCountry);
+          
+          const badge = document.createElement('span');
+          badge.className = 'bg-stone-900 text-white font-bold text-xs px-3 py-1.5 rounded-xl capitalize shadow-md border border-stone-700';
+          badge.innerText = matchedCountry;
+          
+          const guessedContainer = document.getElementById('guessed-countries');
+          guessedContainer.appendChild(badge);
+          
+          const timerBadge = document.getElementById('timer-badge');
+          timerBadge.classList.add('animate-pulse-green-strong');
+          setTimeout(() => timerBadge.classList.remove('animate-pulse-green-strong'), 400);
+
+          const guessedBox = document.getElementById('guessed-box-container');
+          guessedBox.scrollTop = guessedBox.scrollHeight;
+
+          document.getElementById('guessed-count-header').innerText = `Guessed Countries (${guessedCountriesList.length})`;
+          showFeedback('Correct!', 'correct');
+
+          if (guessedCountriesList.length === currentChallenge.answers.length) {
+            setTimeout(() => {
+              showResults();
+            }, 600);
+          }
+        }
+      }
+
+      input.value = '';
+      input.focus();
+    }
+
+    checkPreviousCompletion();
+
+    document.addEventListener('keydown', function(e) {
+      const landingHidden = document.getElementById('landing-screen').classList.contains('hidden');
+      const resultsHidden = document.getElementById('results-screen').classList.contains('hidden');
+
+      if ((e.key === 'Enter') && !landingHidden) {
+        e.preventDefault();
+        startGame();
+      } else if ((e.key === 'Enter') && landingHidden && resultsHidden) {
+        e.preventDefault();
+        handleSubmission();
+      }
+    });
+  </script>
+</body>
+</html>
